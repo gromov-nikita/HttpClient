@@ -1,8 +1,12 @@
+import json.JsonParser;
+import models.user.Geo;
+import models.user.User;
 import server.Request;
 
 import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 public class Runner {
@@ -41,6 +45,12 @@ public class Runner {
             Request request2 = new Request(properties.getProperty("putORdelete"));
             System.out.println(request2.put(str));
             System.out.println(request2.delete());
+
+            System.out.println("\n\n\n******************************\n\n");
+            for(User x : new JsonParser().parseArrUsers(request.get())) {
+                System.out.println(x.toString());
+                System.out.println("#################");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
