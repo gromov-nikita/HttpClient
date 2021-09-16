@@ -1,4 +1,6 @@
 import json.JsonParser;
+import models.user.Address;
+import models.user.Company;
 import models.user.Geo;
 import models.user.User;
 import server.Request;
@@ -17,34 +19,30 @@ public class Runner {
             reader = new FileReader("src/main/java/info/info.properies");
             properties.load(reader);
             Request request = new Request(properties.getProperty("users"));
-            String str = "{\n" +
-                    "    \"id\": 11,\n" +
-                    "    \"name\": \"Clementina DuBuque\",\n" +
-                    "    \"username\": \"Moriah.Stanton\",\n" +
-                    "    \"email\": \"Rey.Padberg@karina.biz\",\n" +
-                    "    \"address\": {\n" +
-                    "      \"street\": \"Kattie Turnpike\",\n" +
-                    "      \"suite\": \"Sute 198\",\n" +
-                    "      \"city\": \"Lebsackbury\",\n" +
-                    "      \"zipcode\": \"31428-2261\",\n" +
-                    "      \"geo\": {\n" +
-                    "        \"lat\": \"-38.2386\",\n" +
-                    "        \"lng\": \"57.2232\"\n" +
-                    "      }\n" +
-                    "    },\n" +
-                    "    \"phone\": \"024-648-3804\",\n" +
-                    "    \"website\": \"ambrose.net\",\n" +
-                    "    \"company\": {\n" +
-                    "      \"name\": \"Hoeger LLC\",\n" +
-                    "      \"catchPhrase\": \"Centralized empowering task-force\",\n" +
-                    "      \"bs\": \"target end-to-end models\"\n" +
-                    "    }\n" +
-                    "  }";
-            System.out.println(request.get());
-            System.out.println(request.post(str));
+            String str = new User(
+                    11,
+                    "Clementina DuBuque",
+                    "Moriah.Stanton",
+                    "Rey.Padberg@karina.biz",
+                    new Address(
+                            "Kattie Turnpike",
+                            "Sute 198",
+                            "Lebsackbury",
+                            "31428-2261",
+                            new Geo(
+                                    -38.2386,
+                                    57.2232)),
+                    "024-648-3804",
+                    "ambrose.net",
+                    new Company(
+                            "Hoeger LLC",
+                            "Centralized empowering task-force",
+                            "target end-to-end models")).getJSONString();
+            System.out.println("get " + request.get());
+            System.out.println("post " + request.post(str));
             Request request2 = new Request(properties.getProperty("putORdelete"));
-            System.out.println(request2.put(str));
-            System.out.println(request2.delete());
+            System.out.println("put " + request2.put(str));
+            System.out.println("delete " + request2.delete());
 
             System.out.println("\n\n\n******************************\n\n");
             for(User x : new JsonParser().parseArrUsers(request.get())) {

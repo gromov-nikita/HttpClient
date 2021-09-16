@@ -1,6 +1,8 @@
 package models.user;
 
-public class User {
+import models.interfaces.IJSON;
+
+public class User implements IJSON {
     private int id;
     private String name;
     private String username;
@@ -29,5 +31,19 @@ public class User {
                 "User.phone: " + phone + "\nUser.website: " + website +
                 "\nUser.company: \n" + company.toString();
 
+    }
+
+    @Override
+    public String getJSONString() {
+        return "{\n" +
+                "\"id\": " + id + "," +
+                "\n\"name\": \"" + name + "\",\n" +
+                "\"username\": \"" + username + "\",\n" +
+                "\"email\": \"" + email +"\",\n" +
+                "\"address\": " + address.getJSONString() + ",\n" +
+                "\"phone\": \"" + phone + "\",\n" +
+                "\"website\": \"" + website + "\",\n" +
+                "\"company\": " + company.getJSONString() + "\n" +
+                "}";
     }
 }
