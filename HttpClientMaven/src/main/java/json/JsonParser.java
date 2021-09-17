@@ -6,32 +6,65 @@ import models.user.Geo;
 import models.user.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONString;
+import org.w3c.dom.ls.LSOutput;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class JsonParser {
-    public List<User> parseArrUsers(String jsonSTR) {
-        JSONArray arr = new JSONArray(jsonSTR);
+    public List parseArr(String jsonStr, Class myClass)  throws NoSuchMethodException,
+            IllegalAccessException, InvocationTargetException,
+            InstantiationException, NoSuchFieldException {
+        List list = new LinkedList();
+        Constructor constructor = myClass.getDeclaredConstructors()[0];
+        Field[] fields = myClass.getDeclaredFields();
+        Object[] objects = new Object[fields.length];
+        JSONArray array = new JSONArray(jsonStr);
         JSONObject obj;
-        List<User> list = new ArrayList<User>(arr.length());
-        for(int i = 0; i  < arr.length(); i++) {
-            obj = arr.getJSONObject(i);
-            list.add(new User(obj.getInt("id"), obj.getString("name"), obj.getString("username"),
-                    obj.getString("email"), parseAddress(obj.getJSONObject("address")),
-                    obj.getString("phone"), obj.getString("website"),
-                    parseCompany(obj.getJSONObject("company"))));
+        for(int i = 0; i < array.length(); i++) {
+            obj = array.getJSONObject(i);
+            for (int j = 0; j < fields.length; j++) {
+                if(fields[j].getType().isPrimitive() || fields[j].getType().equals(String.class)) {
+                    objects[j] = obj.get(fields[j].getName());
+                }
+                else {
+                    objects[j] = parseObj(obj.getJSONObject(fields[j].getName()).toString(),
+                            fields[j].getType());
+                }
+            }
+            list.add(constructor.newInstance(objects));
         }
         return list;
-    }
-    public Address parseAddress(JSONObject obj) {
-        return new Address(obj.getString("street"), obj.getString("suite"), obj.getString("city"),
-                obj.getString("zipcode"), parseGeo(obj.getJSONObject("geo")));
-    }
-    public Geo parseGeo(JSONObject obj) {
-        return new Geo(obj.getDouble("lat"), obj.getDouble("lng"));
-    }
-    public Company parseCompany(JSONObject obj) {
-        return new Company(obj.getString("name"), obj.getString("catchPhrase"), obj.getString("bs"));
+}
+    public Object parseObj(String jsonStr, Class myClass) throws IllegalAccessException,
+            InvocationTargetException, InstantiationException {
+        JSONObject obj = new JSONObject(jsonStr);
+        Constructor constructor = myClass.getDeclaredConstructors()[0];
+        Field[] fields = myClass.getDeclaredFields();
+        Object[] objects = new Object[fields.length];
+        for(int i = 0; i < fields.length; i++) {
+            if((fields[i].getType().isPrimitive() || fields[i].getType().equals(String.class))
+                    && !fields[i].getType().equals(double.class)) {
+                objects[i] = obj.get(fields[i].getName());
+            }
+            else {
+                if(fields[i].getType().equals(double.class)) {
+                    objects[i] = obj.getDouble(fields[i].getName());
+                }
+                else {
+                    objects[i] = parseObj(obj.getJSONObject(fields[i].getName()).toString(),
+                            fields[i].getType());
+                }
+            }
+        }
+        return constructor.newInstance(objects);
     }
 }

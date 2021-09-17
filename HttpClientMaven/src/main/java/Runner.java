@@ -1,10 +1,10 @@
 import json.JsonParser;
+import models.post.Post;
 import models.user.Address;
 import models.user.Company;
 import models.user.Geo;
 import models.user.User;
 import server.Request;
-
 import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.io.IOException;
@@ -40,14 +40,19 @@ public class Runner {
                             "target end-to-end models")).getJSONString();
             System.out.println("get " + request.get());
             System.out.println("post " + request.post(str));
-            Request request2 = new Request(properties.getProperty("putORdelete"));
+            Request request2 = new Request(properties.getProperty("putORdeleteUsers"));
             System.out.println("put " + request2.put(str));
             System.out.println("delete " + request2.delete());
-
             System.out.println("\n\n\n******************************\n\n");
-            for(User x : new JsonParser().parseArrUsers(request.get())) {
+            for(User x : (List<User>)new JsonParser().parseArr(request.get(), User.class)) {
                 System.out.println(x.toString());
                 System.out.println("#################");
+            }
+
+            Request request3 = new Request(properties.getProperty("posts"));
+            for(Post x : (List<Post>)new JsonParser().parseArr(request3.get(), Post.class)) {
+                System.out.println(x.toString());
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$");
             }
         } catch (IOException e) {
             e.printStackTrace();

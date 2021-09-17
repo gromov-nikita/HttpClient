@@ -1,2 +1,3 @@
 users : https://jsonplaceholder.typicode.com/users
-putORdelete : https://jsonplaceholder.typicode.com/users/3
+putORdeleteUsers : https://jsonplaceholder.typicode.com/users/3
+posts : https://jsonplaceholder.typicode.com/posts
