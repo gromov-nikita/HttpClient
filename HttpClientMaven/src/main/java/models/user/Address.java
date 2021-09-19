@@ -1,8 +1,6 @@
 package models.user;
 
-import models.interfaces.IJSON;
-
-public class Address implements IJSON {
+public class Address {
     private String street;
     private String suite;
     private String city;
@@ -37,15 +35,5 @@ public class Address implements IJSON {
                 zipcode + "\nAddress.geo: \n" + geo.toString();
     }
 
-    @Override
-    public String getJSONString() {
-        return "{\n" +
-                "\"street\": \"" + street + "\",\n" +
-                "\"suite\": \"" + suite + "\",\n" +
-                "\"city\": \"" + city + "\",\n" +
-                "\"zipcode\": \"" + zipcode + "\",\n" +
-                "\"geo\": " + geo.getJSONString() + "\n" +
-                "}";
-    }
 }
 

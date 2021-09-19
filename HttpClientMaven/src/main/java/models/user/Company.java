@@ -1,8 +1,6 @@
 package models.user;
 
-import models.interfaces.IJSON;
-
-public class Company implements IJSON {
+public class Company {
     private String name;
     private String catchPhrase;
     private String bs;
@@ -26,12 +24,4 @@ public class Company implements IJSON {
         return "Company.name: " + name + "\nCompany.catchPhrase: " + catchPhrase + "\nCompany.bs: " + bs + "\n";
     }
 
-    @Override
-    public String getJSONString() {
-        return "{\n" +
-                "\"name\": \"" + name + "\",\n" +
-                "\"catchPhrase\": \"" + catchPhrase + "\",\n" +
-                "\"bs\": \"" + bs + "\"\n" +
-                "}";
-    }
 }

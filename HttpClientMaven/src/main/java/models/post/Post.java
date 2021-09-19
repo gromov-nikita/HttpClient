@@ -1,8 +1,7 @@
 package models.post;
 
-import models.interfaces.IJSON;
 
-public class Post implements IJSON {
+public class Post {
     private int userId;
     private int id;
     private String title;
@@ -32,13 +31,4 @@ public class Post implements IJSON {
                 "\nPost.body: " + body;
     }
 
-    @Override
-    public String getJSONString() {
-        return "{\n" +
-                "\"userId\": " + userId + "," +
-                "\n\"id\": " + id + ",\n" +
-                "\"title\": \"" + title + "\",\n" +
-                "\"body\": \"" + body + "\",\n" +
-                "}";
-    }
 }

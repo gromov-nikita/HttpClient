@@ -4,6 +4,8 @@ import models.user.Address;
 import models.user.Company;
 import models.user.Geo;
 import models.user.User;
+import org.json.JSONObject;
+import org.json.JSONString;
 import server.Request;
 import java.io.FileReader;
 import java.net.URISyntaxException;
@@ -19,7 +21,8 @@ public class Runner {
             reader = new FileReader("src/main/java/info/info.properies");
             properties.load(reader);
             Request request = new Request(properties.getProperty("users"));
-            String str = new User(
+
+            String str = new JSONObject(new User(
                     11,
                     "Clementina DuBuque",
                     "Moriah.Stanton",
@@ -37,7 +40,7 @@ public class Runner {
                     new Company(
                             "Hoeger LLC",
                             "Centralized empowering task-force",
-                            "target end-to-end models")).getJSONString();
+                            "target end-to-end models"))).toString();
             System.out.println("get " + request.get());
             System.out.println("post " + request.post(str));
             Request request2 = new Request(properties.getProperty("putORdeleteUsers"));
@@ -56,9 +59,8 @@ public class Runner {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             e.printStackTrace();
         }
         catch (Exception ex) {

@@ -10,51 +10,51 @@ import java.net.http.HttpResponse;
 public class Request {
     private URI uri;
     private HttpClient httpClient;
-    public Request(String uri) throws URISyntaxException {
+    public Request(String uri) {
         this.uri = URI.create(uri);
         httpClient = HttpClient.newBuilder().build();
     }
-    public String get() throws Exception {
+    public String get() throws IOException, InterruptedException {
         String str;
         StringBuffer stringBuffer;
         HttpRequest httpRequest = HttpRequest.newBuilder(uri).GET().build();
         HttpResponse<String> response = httpClient.send(httpRequest,
                 HttpResponse.BodyHandlers.ofString());
-        if(response.statusCode() == 200) {
-            return response.body();
-        }
-        else {
-            return "" + response.statusCode();
-        }
+        return responseHandler(response);
     }
-    public String post(String str) throws Exception {
+    public String post(String str) throws IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(uri).POST(HttpRequest.BodyPublishers.ofString(str)).build();
         HttpResponse<String> response = httpClient.send(httpRequest,HttpResponse.BodyHandlers.ofString());
-        if(response.statusCode() == 201 || response.statusCode() == 200) {
-            return response.body();
-        }
-        else {
-            return "" + response.statusCode();
-        }
+        return responseHandler(response);
     }
-    public String put(String str) throws Exception {
+    public String put(String str) throws IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(uri).PUT(HttpRequest.BodyPublishers.ofString(str)).build();
         HttpResponse<String> response = httpClient.send(httpRequest,HttpResponse.BodyHandlers.ofString());
-        if(response.statusCode() == 201 || response.statusCode() == 200 || response.statusCode() == 204) {
-            return response.body();
-        }
-        else {
-            return "" + response.statusCode();
-        }
+        return responseHandler(response);
     }
-    public String delete() throws Exception {
+    public String delete() throws IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(uri).DELETE().build();
         HttpResponse<String> response = httpClient.send(httpRequest,HttpResponse.BodyHandlers.ofString());
-        if(response.statusCode() == 202 || response.statusCode() == 204 || response.statusCode() == 200 ) {
-            return response.body();
-        }
-        else {
-            return "" + response.statusCode();
+        return responseHandler(response);
+    }
+    private String responseHandler(HttpResponse response) {
+        int code = response.statusCode();
+        switch (code) {
+            case 200 : {
+                return (String) response.body();
+            }
+            case 201 : {
+                return (String) response.body();
+            }
+            case 202 : {
+                return (String) response.body();
+            }
+            case 204 : {
+                return (String) response.body();
+            }
+            default : {
+                return String.valueOf(response.statusCode());
+            }
         }
     }
 }

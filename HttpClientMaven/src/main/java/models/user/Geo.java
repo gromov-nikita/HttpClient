@@ -1,8 +1,6 @@
 package models.user;
 
-import models.interfaces.IJSON;
-
-public class Geo implements IJSON {
+public class Geo {
     private double lat;
     private double lng;
     public Geo(double lat, double lng) {
@@ -21,11 +19,4 @@ public class Geo implements IJSON {
         return "Geo.lat: " + lat + "\nGeo.lng " + lng + "\n";
     }
 
-    @Override
-    public String getJSONString() {
-        return  "{\n" +
-                "\"lat\": \"" + lat + "\",\n" +
-                "\"lng\": \"" + lng + "\"\n" +
-                "}";
-    }
 }
