@@ -40,17 +40,55 @@ public class Request {
     private String responseHandler(HttpResponse response) {
         int code = response.statusCode();
         switch (code) {
-            case 200 : {
-                return (String) response.body();
-            }
-            case 201 : {
-                return (String) response.body();
-            }
-            case 202 : {
-                return (String) response.body();
-            }
+            case 200 :
+            case 202 :
+            case 201 :
             case 204 : {
                 return (String) response.body();
+            }
+            case 500 : {
+                System.out.println("Internal Server Error");
+                return String.valueOf(response.statusCode());
+            }
+            case 501 : {
+                System.out.println("Not Implemented");
+                return String.valueOf(response.statusCode());
+            }
+            case 502 : {
+                System.out.println("Bad Gateway");
+                return String.valueOf(response.statusCode());
+            }
+            case 503 : {
+                System.out.println("Service Unavailable");
+                return String.valueOf(response.statusCode());
+            }
+            case 504 : {
+                System.out.println("Gateway Timeout");
+                return String.valueOf(response.statusCode());
+            }
+            case 505 : {
+                System.out.println("HTTP Version Not Supported");
+                return String.valueOf(response.statusCode());
+            }
+            case 506 : {
+                System.out.println("Variant Also Negotiates");
+                return String.valueOf(response.statusCode());
+            }
+            case 507 : {
+                System.out.println("Insufficient Storage");
+                return String.valueOf(response.statusCode());
+            }
+            case 508 : {
+                System.out.println("Loop Detected");
+                return String.valueOf(response.statusCode());
+            }
+            case 509 : {
+                System.out.println("Bandwidth Limit Exceeded");
+                return String.valueOf(response.statusCode());
+            }
+            case 510 : {
+                System.out.println("Not Extended");
+                return String.valueOf(response.statusCode());
             }
             default : {
                 return String.valueOf(response.statusCode());
