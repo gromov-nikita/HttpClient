@@ -48,50 +48,50 @@ public class Request {
             }
             case 500 : {
                 System.out.println("Internal Server Error");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 501 : {
                 System.out.println("Not Implemented");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 502 : {
                 System.out.println("Bad Gateway");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 503 : {
                 System.out.println("Service Unavailable");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 504 : {
                 System.out.println("Gateway Timeout");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 505 : {
                 System.out.println("HTTP Version Not Supported");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 506 : {
                 System.out.println("Variant Also Negotiates");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 507 : {
                 System.out.println("Insufficient Storage");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 508 : {
                 System.out.println("Loop Detected");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 509 : {
                 System.out.println("Bandwidth Limit Exceeded");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             case 510 : {
                 System.out.println("Not Extended");
-                return String.valueOf(response.statusCode());
+                return null;
             }
             default : {
-                return String.valueOf(response.statusCode());
+                return null;
             }
         }
     }

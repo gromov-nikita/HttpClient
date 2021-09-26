@@ -21,7 +21,6 @@ public class Runner {
             reader = new FileReader("src/main/java/info/info.properies");
             properties.load(reader);
             Request request = new Request(properties.getProperty("users"));
-
             String str = new JSONObject(new User(
                     11,
                     "Clementina DuBuque",
@@ -47,15 +46,21 @@ public class Runner {
             System.out.println("put " + request2.put(str));
             System.out.println("delete " + request2.delete());
             System.out.println("\n\n\n******************************\n\n");
-            for(User x : (List<User>)new JsonParser().parseArr(request.get(), User.class)) {
-                System.out.println(x.toString());
-                System.out.println("#################");
+            String string = request.get();
+            if(string != null) {
+                for (User x : (List<User>) new JsonParser().parseArr(string, User.class)) {
+                    System.out.println(x.toString());
+                    System.out.println("#################");
+                }
             }
 
             Request request3 = new Request(properties.getProperty("posts"));
-            for(Post x : (List<Post>)new JsonParser().parseArr(request3.get(), Post.class)) {
-                System.out.println(x.toString());
-                System.out.println("$$$$$$$$$$$$$$$$$$$$$");
+            string = request3.get();
+            if(string != null) {
+                for (Post x : (List<Post>) new JsonParser().parseArr(string, Post.class)) {
+                    System.out.println(x.toString());
+                    System.out.println("$$$$$$$$$$$$$$$$$$$$$");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
