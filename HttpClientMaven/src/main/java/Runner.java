@@ -18,7 +18,7 @@ public class Runner {
         Properties properties = new Properties();
         FileReader reader = null;
         try {
-            reader = new FileReader("src/main/java/info/info.properies");
+            reader = new FileReader("src/main/resources/info.properties");
             properties.load(reader);
             Request request = new Request(properties.getProperty("users"));
             String str = new JSONObject(new User(
@@ -46,22 +46,26 @@ public class Runner {
             System.out.println("put " + request2.put(str));
             System.out.println("delete " + request2.delete());
             System.out.println("\n\n\n******************************\n\n");
-            String string = request.get();
-            if(string != null) {
-                for (User x : (List<User>) new JsonParser().parseArr(string, User.class)) {
+            String requestBody = request.get();
+
+            if(requestBody != null) {
+                for (User x : (List<User>) new JsonParser().parseArr(requestBody, User.class)) {
                     System.out.println(x.toString());
                     System.out.println("#################");
                 }
             }
 
+
+
             Request request3 = new Request(properties.getProperty("posts"));
-            string = request3.get();
-            if(string != null) {
-                for (Post x : (List<Post>) new JsonParser().parseArr(string, Post.class)) {
+            requestBody = request3.get();
+            if(requestBody != null) {
+                for (Post x : (List<Post>) new JsonParser().parseArr(requestBody, Post.class)) {
                     System.out.println(x.toString());
                     System.out.println("$$$$$$$$$$$$$$$$$$$$$");
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
